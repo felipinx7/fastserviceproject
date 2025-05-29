@@ -19,7 +19,6 @@ body {
   font-family: var(--poppins, "Poppins", sans-serif);
 }
 
-// Scroll bar part Cardap
 @layer utilities {
   .scrollbar-custom {
     scrollbar-width: thin;
