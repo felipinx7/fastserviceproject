@@ -1,75 +1,55 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
-// Creating array of cards
-const cards = [
-  { id: 1, titulo: "Treino de Peito", status: "pendente" },
-  { id: 2, titulo: "Treino de Pernas", status: "concluido" },
-  { id: 3, titulo: "Treino de Ombro", status: "pendente" },
-];
+export default function Teste() {
+  const Frutas = [
+    { id: 1, nome: "Maçã", cor: "Vermelha" },
+    { id: 2, nome: "Banana", cor: "Amarela" },
+    { id: 3, nome: "Laranja", cor: "Laranja" },
+    { id: 4, nome: "Uva", cor: "Roxa" },
+    { id: 5, nome: "Abacaxi", cor: "Amarela" },
+    { id: 6, nome: "Melancia", cor: "Verde" },
+    { id: 7, nome: "Morango", cor: "Vermelha" },
+    { id: 8, nome: "Pera", cor: "Verde" },
+    { id: 9, nome: "Kiwi", cor: "Marrom" },
+    { id: 10, nome: "Cereja", cor: "Vermelha" },
+  ];
 
-export default function Page() {
-  //States utils in Filter
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const [frutaSelecionada, setFrutaSelecionada] = useState("");
 
-  //Take value of URL
-  const statusSelecionado = searchParams.get("status") || "";
-
-  //Function Filter cards
-  const filtrarPorStatus = (value: string) => {
-    //Take value and formated value
-    const params = new URLSearchParams(searchParams.toString());
-
-
-    if (value) {
-      params.set("status", value);
-    } else {
-      params.delete("status");
-    }
-
-    router.push(`?${params.toString()}`);
-  };
-
-  const cardsFiltrados = cards.filter((card) =>
-    statusSelecionado ? card.status === statusSelecionado : true
-  );
+  const frutasFiltradas = frutaSelecionada
+    ? Frutas.filter((fruta) => fruta.nome === frutaSelecionada)
+    : Frutas;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="flex flex-col items-center justify-center h-screen gap-4">
+      <h1 className="text-xl font-bold">Filtrar Frutas por Nome</h1>
+
       <select
-        className="border px-3 py-2 rounded-md shadow text-sm"
-        value={statusSelecionado}
-        onChange={(e) => filtrarPorStatus(e.target.value)}
+        value={frutaSelecionada}
+        onChange={(e) => setFrutaSelecionada(e.target.value)}
+        className="border border-gray-300 p-2 rounded"
       >
-        <option value="">Todos</option>
-        <option value="pendente">Pendente</option>
-        <option value="concluido">Concluído</option>
+        <option value="">Todas as frutas</option>
+        {Frutas.map((fruta) => (
+          <option key={fruta.id} value={fruta.nome}>
+            {fruta.nome}
+          </option>
+        ))}
       </select>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {cardsFiltrados.map((card) => (
-          <div
-            key={card.id}
-            className="rounded-xl p-4 shadow bg-white border-l-4"
-            style={{
-              borderColor: card.status === "pendente" ? "#facc15" : "#4ade80",
-            }}
-          >
-            <h2 className="text-lg font-medium">{card.titulo}</h2>
-            <span
-              className={`text-xs mt-2 inline-block px-2 py-1 rounded ${
-                card.status === "pendente"
-                  ? "bg-yellow-100 text-yellow-800"
-                  : "bg-green-100 text-green-800"
-              }`}
-            >
-              {card.status === "pendente" ? "Pendente" : "Concluído"}
-            </span>
-          </div>
-        ))}
-      </div>
+      <ul className="mt-4">
+        {frutasFiltradas.length === 0 ? (
+          <li>Nenhuma fruta encontrada</li>
+        ) : (
+          frutasFiltradas.map((fruta) => (
+            <li key={fruta.id}>
+              {fruta.nome} - {fruta.cor} - ID: {fruta.id}
+            </li>
+          ))
+        )}
+      </ul>
     </div>
   );
 }
