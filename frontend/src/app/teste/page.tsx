@@ -45,7 +45,7 @@ export default function Teste() {
         ) : (
           frutasFiltradas.map((fruta) => (
             <li key={fruta.id}>
-              {fruta.nome} - {fruta.cor} - ID: {fruta.id}
+              {fruta.nome} - {fruta.cor}
             </li>
           ))
         )}
