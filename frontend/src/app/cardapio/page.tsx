@@ -109,7 +109,7 @@ const Cardapio = () => {
       quantify: 1,
     },
   ]);
-  //State for storage value inp
+  //State for storage value input
   const [valueInput, setValueInput] = useState("");
   //State for show values filter
   const ProductsFilter = Prodcuts.filter((products) =>
